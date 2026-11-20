@@ -1,0 +1,478 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light" class="reading-page"> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="从立春到大寒，查交节时间，读节气名称、南北气候、农事与民俗，附传统七十二候。"><meta name="generator" content="Astro v6.4.8"><script>
+      (() => {
+        const storageKey = 'yezi-theme';
+        const root = document.documentElement;
+        try {
+          if (localStorage.getItem(storageKey) === 'dark') root.dataset.theme = 'dark';
+        } catch {}
+
+        document.addEventListener('DOMContentLoaded', () => {
+          const toggle = document.getElementById('theme-toggle');
+          if (!toggle) return;
+          const motion = matchMedia('(prefers-reduced-motion: no-preference)');
+          const duration = parseFloat(getComputedStyle(root).getPropertyValue('--dur-theme'));
+          let transitionTimer;
+
+          function updateToggle() {
+            const isDark = root.dataset.theme === 'dark';
+            toggle.setAttribute('aria-pressed', String(isDark));
+            toggle.title = isDark ? '切换到浅色模式' : '切换到深色模式';
+          }
+
+          updateToggle();
+          toggle.addEventListener('click', () => {
+            const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+            if (motion.matches) {
+              root.classList.add('theme-changing');
+              clearTimeout(transitionTimer);
+              transitionTimer = setTimeout(() => root.classList.remove('theme-changing'), duration + 50);
+            }
+            root.dataset.theme = next;
+            updateToggle();
+            try {
+              localStorage.setItem(storageKey, next);
+            } catch {}
+          });
+        }, { once: true });
+      })();
+    </script><link rel="icon" href="/favicon.svg" type="image/svg+xml"><title>中国二十四节气 · 葉子的笔记</title><link rel="stylesheet" href="/_astro/_..DbX94k4-.css"><link rel="stylesheet" href="/_astro/Site.PWcGQqTz.css"></head> <body> <a class="skip-link" href="#main">跳到正文</a> <header class="site-header"> <div class="header-inner"> <a class="brand" href="/"> <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="M4 5l12-3a2 2 0 0 1 2 2v2M6 5h13a2 2 0 0 1 2 2v13H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Zm2 5h9m-9 4h9"></path> </svg> <span>葉子的笔记</span> </a> <div class="header-actions"> <button type="button" class="search-trigger" id="open-search" aria-label="搜索知识库" aria-haspopup="dialog" aria-controls="search-dialog" aria-keyshortcuts="Meta+K Control+K"> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="M16.5 16.5 21 21M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"></path> </svg> <span>搜索知识库</span> <kbd aria-hidden="true" id="search-shortcut">Ctrl K</kbd> </button> <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-label"> <div class="search-box"> <label id="search-label" class="visually-hidden" for="search-input">搜索知识库</label> <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="M16.5 16.5 21 21M19 11a8 8 0 1 1-16 0 8 8 0 0 1 16 0Z"></path> </svg> <input type="search" id="search-input" autocomplete="off" placeholder="输入关键词搜索文章…" autofocus> <form method="dialog"> <button type="submit" class="icon-button" aria-label="关闭搜索"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="m6 6 12 12M18 6 6 18"></path> </svg></button> </form> </div> <p class="search-status" id="search-status" role="status">可按标题、标签或正文搜索。</p> <ul id="search-results" class="search-results" aria-label="搜索结果"></ul> </dialog> <script type="module">const C=document.querySelector("#open-search"),o=document.querySelector("#search-dialog"),s=document.querySelector("#search-input"),m=document.querySelector("#search-status"),g=document.querySelector("#search-results"),q=document.querySelector("#search-shortcut");/Mac|iPhone|iPad/.test(navigator.platform)&&(q.textContent="⌘ K");let p;const S=()=>(p??=fetch("/search-index.json").then(async e=>{if(!e.ok)throw new Error("Search index unavailable");return e.json()}).catch(e=>{throw p=void 0,e}),p),f=e=>e.normalize("NFKC").toLowerCase().replace(/\s+/g," ");let y=0;async function x(){const e=++y,n=f(s.value.trim());if(g.replaceChildren(),!n){m.textContent="可按标题、标签或正文搜索。";return}m.textContent="正在搜索…";try{const a=await S();if(e!==y)return;const c=[...new Set(n.split(" "))],u=a.map(t=>{const r=f(t.title),i=f([t.domain,t.chapter,t.description,...t.tags].join(" ")),h=f(t.body),l=c.map(d=>r.includes(d)?8:i.includes(d)?3:h.includes(d)?1:0),w=l.every(Boolean)?l.reduce((d,E)=>d+E,0):0;return{entry:t,score:w}}).filter(({score:t})=>t>0).sort((t,r)=>r.score-t.score);m.textContent=u.length?`找到 ${u.length} 篇文章${u.length>12?"，显示前 12 篇":""}。`:"没有匹配的文章。试试更短的关键词。";for(const{entry:t}of u.slice(0,12)){const r=document.createElement("li"),i=document.createElement("a"),h=document.createElement("strong"),l=document.createElement("span");i.href=t.url,h.textContent=t.title,l.textContent=[`${t.domain} / ${t.chapter}`,t.description].filter(Boolean).join(" · "),i.append(h,l),r.append(i),g.append(r)}}catch{e===y&&(m.textContent="搜索索引加载失败，请重新输入关键词。")}}function k(){o.open||o.showModal(),s.focus(),s.select(),x()}C.addEventListener("click",k);s.addEventListener("input",x);o.addEventListener("click",e=>{e.target===o&&o.close()});o.addEventListener("keydown",e=>{if(e.isComposing)return;if(e.key==="Escape"){e.preventDefault(),o.close();return}const n=[...g.querySelectorAll("a")],a=n.findIndex(c=>c===document.activeElement);if(n.length&&(e.key==="ArrowDown"||e.key==="ArrowUp")){e.preventDefault();const c=e.key==="ArrowDown"?a+1:a<0?n.length-1:a-1;c===-1?s.focus():n[(c+n.length)%n.length].focus()}e.key==="Enter"&&document.activeElement===s&&n[0]&&(e.preventDefault(),n[0].click())});document.addEventListener("keydown",e=>{(e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==="k"&&(e.preventDefault(),k())});</script> <button type="button" class="theme-toggle" id="theme-toggle" aria-label="深色模式" aria-pressed="false" title="切换到深色模式"> <span class="theme-track" aria-hidden="true"> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="M20.9 14.4A8.9 8.9 0 0 1 9.6 3.1 9 9 0 1 0 20.9 14.4Z"></path> </svg> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4m0-14.2-1.4 1.4M6.3 17.7l-1.4 1.4M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z"></path> </svg> </span> </button> </div> </div>  </header>  <div class="topic-shell"> <aside class="sidebar-desktop"> <nav class="chapter-nav" aria-label="杂项章节"> <p class="side-caption">领域目录</p> <p class="side-title"> <a href="/topics/miscellany/">杂项</a> </p> <details class="chapter" open> <summary><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="m8 10 4 4 4-4"></path> </svg>历法与民俗</summary> <ul> <li> <a href="/topics/miscellany/calendar-and-customs/twenty-four-solar-terms/" aria-current="page"> 中国二十四节气 </a> </li> </ul> </details> </nav> </aside> <details class="sidebar-mobile"> <summary><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="M4 5l12-3a2 2 0 0 1 2 2v2M6 5h13a2 2 0 0 1 2 2v13H6a3 3 0 0 1-3-3V8a3 3 0 0 1 3-3Zm2 5h9m-9 4h9"></path> </svg>杂项 · 章节目录<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="m8 10 4 4 4-4"></path> </svg></summary> <nav class="chapter-nav" aria-label="杂项章节"> <p class="side-caption">领域目录</p> <p class="side-title"> <a href="/topics/miscellany/">杂项</a> </p> <details class="chapter" open> <summary><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="m8 10 4 4 4-4"></path> </svg>历法与民俗</summary> <ul> <li> <a href="/topics/miscellany/calendar-and-customs/twenty-four-solar-terms/" aria-current="page"> 中国二十四节气 </a> </li> </ul> </details> </nav> </details> <main id="main" class="topic-main"> <article class="reading-layout with-outline"> <header class="article-header"> <nav class="breadcrumbs" aria-label="文章位置"> <a href="/topics/miscellany/">杂项</a> <span aria-hidden="true">/</span> <a href="/topics/miscellany/#calendar-and-customs">历法与民俗</a> </nav> <h1>中国二十四节气</h1> <p class="page-lead">从立春到大寒，查交节时间，读节气名称、南北气候、农事与民俗，附传统七十二候。</p> <div class="article-meta"> <time datetime="2026-11-11">2026-11-11</time>  <span class="article-tag">#二十四节气</span><span class="article-tag">#历法</span><span class="article-tag">#物候</span><span class="article-tag">#民俗</span> </div> </header> <aside class="outline" aria-label="本页目录"> <details open> <summary>本页目录<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"> <path d="m8 10 4 4 4-4"></path> </svg></summary> <ul> <li><a href="#%E4%BA%8C%E5%8D%81%E5%9B%9B%E8%8A%82%E6%B0%94%E6%97%B6%E9%97%B4%E8%A1%A8">二十四节气时间表</a></li><li><a href="#%E8%8A%82%E6%B0%94%E6%80%8E%E6%A0%B7%E5%AE%9A%E4%B8%8B%E6%9D%A5">节气怎样定下来</a></li><li class="subheading"><a href="#%E9%BB%84%E7%BB%8F%E6%AF%8F%E9%9A%94%E5%8D%81%E4%BA%94%E5%BA%A6%E4%BA%A4%E4%B8%80%E8%8A%82%E6%B0%94">黄经每隔十五度交一节气</a></li><li class="subheading"><a href="#%E4%BB%8E%E5%9C%AD%E8%A1%A8%E6%B5%8B%E5%BD%B1%E5%88%B0%E5%B9%B3%E6%B0%94%E5%AE%9A%E6%B0%94">从圭表测影到平气、定气</a></li><li class="subheading"><a href="#%E8%8A%82%E6%B0%94%E6%80%8E%E6%A0%B7%E5%8F%82%E4%B8%8E%E5%86%9C%E5%8E%86%E7%BD%AE%E9%97%B0">节气怎样参与农历置闰</a></li><li><a href="#%E5%90%8C%E4%B8%80%E4%B8%AA%E8%8A%82%E6%B0%94%E5%90%84%E5%9C%B0%E6%98%AF%E4%BB%80%E4%B9%88%E5%A4%A9%E6%B0%94">同一个节气，各地是什么天气</a></li><li><a href="#%E6%98%A5%E5%AD%A3">春季</a></li><li class="subheading"><a href="#%E7%AB%8B%E6%98%A5">立春</a></li><li class="subheading"><a href="#%E9%9B%A8%E6%B0%B4">雨水</a></li><li class="subheading"><a href="#%E6%83%8A%E8%9B%B0">惊蛰</a></li><li class="subheading"><a href="#%E6%98%A5%E5%88%86">春分</a></li><li class="subheading"><a href="#%E6%B8%85%E6%98%8E">清明</a></li><li class="subheading"><a href="#%E8%B0%B7%E9%9B%A8">谷雨</a></li><li><a href="#%E5%A4%8F%E5%AD%A3">夏季</a></li><li class="subheading"><a href="#%E7%AB%8B%E5%A4%8F">立夏</a></li><li class="subheading"><a href="#%E5%B0%8F%E6%BB%A1">小满</a></li><li class="subheading"><a href="#%E8%8A%92%E7%A7%8D">芒种</a></li><li class="subheading"><a href="#%E5%A4%8F%E8%87%B3">夏至</a></li><li class="subheading"><a href="#%E5%B0%8F%E6%9A%91">小暑</a></li><li class="subheading"><a href="#%E5%A4%A7%E6%9A%91">大暑</a></li><li><a href="#%E7%A7%8B%E5%AD%A3">秋季</a></li><li class="subheading"><a href="#%E7%AB%8B%E7%A7%8B">立秋</a></li><li class="subheading"><a href="#%E5%A4%84%E6%9A%91">处暑</a></li><li class="subheading"><a href="#%E7%99%BD%E9%9C%B2">白露</a></li><li class="subheading"><a href="#%E7%A7%8B%E5%88%86">秋分</a></li><li class="subheading"><a href="#%E5%AF%92%E9%9C%B2">寒露</a></li><li class="subheading"><a href="#%E9%9C%9C%E9%99%8D">霜降</a></li><li><a href="#%E5%86%AC%E5%AD%A3">冬季</a></li><li class="subheading"><a href="#%E7%AB%8B%E5%86%AC">立冬</a></li><li class="subheading"><a href="#%E5%B0%8F%E9%9B%AA">小雪</a></li><li class="subheading"><a href="#%E5%A4%A7%E9%9B%AA">大雪</a></li><li class="subheading"><a href="#%E5%86%AC%E8%87%B3">冬至</a></li><li class="subheading"><a href="#%E5%B0%8F%E5%AF%92">小寒</a></li><li class="subheading"><a href="#%E5%A4%A7%E5%AF%92">大寒</a></li><li><a href="#%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99">七十二候</a></li> </ul> </details> </aside> <script type="module">const i=document.querySelector(".outline details");if(i){let c=function(){const t=parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop)+16;let e=n[0]?.link;for(const{heading:d,link:a}of n)d&&d.getBoundingClientRect().top<=t&&(e=a);window.scrollY>0&&window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-2&&(e=n.at(-1)?.link),e!==o&&(o?.removeAttribute("aria-current"),e?.setAttribute("aria-current","location"),o=e)};const l=window.matchMedia("(max-width: 1150px)"),r=()=>{i.open=!l.matches};r(),l.addEventListener("change",r);const n=[...i.querySelectorAll("a")].map(t=>({link:t,heading:document.getElementById(decodeURIComponent(t.hash.slice(1)))}));let o;c(),window.addEventListener("scroll",c,{passive:!0})}</script> <div class="article-content"> <div class="prose"><p>二十四节气把太阳一年的视运动划成二十四个节点。春分、秋分记录太阳直射点穿过赤道的时刻，夏至、冬至标记直射点的南北极限。谷雨、芒种、霜降等名称还记下了古人对雨水、作物和寒暖的观察。这套时间知识源于中国黄河流域，后来随历法和农事传播到各地，衍生出不同的节令习俗。2016 年，二十四节气列入联合国教科文组织人类非物质文化遗产代表作名录。 <a href="https://ich.unesco.org/en/RL/the-twenty-four-solar-terms-knowledge-in-china-of-time-and-practices-developed-through-observation-of-the-suns-annual-motion-00647">联合国教科文组织名录</a></p>
+<h2 id="二十四节气时间表">二十四节气时间表</h2>
+<p>表中日期为公历。常见日期列给出便于记忆的近似值，具体哪一天、几点几分，以当年历书为准。2026 年一栏使用北京时间（UTC+8），与香港时间相同。<strong>粗体节气为中气</strong>，其余十二个是狭义的「节」。点击节气名可跳到对应条目。 <a href="https://www.hko.gov.hk/sc/gts/time/24solarterms.htm">香港天文台：节气与黄经</a> · <a href="https://www.hko.gov.hk/sc/gts/astron2026/almanac2026_index.htm">《香港天文台年历 2026》各月历页</a> · <a href="https://www.hko.gov.hk/sc/gts/astronomy/Solar_Term.htm">其他年份交节时间</a></p>
+<table>
+<thead>
+<tr>
+<th>节气</th>
+<th align="right">太阳黄经</th>
+<th>常见日期</th>
+<th>2026 年交节</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#%E7%AB%8B%E6%98%A5">立春</a></td>
+<td align="right">315°</td>
+<td>2 月 4 日</td>
+<td>02-04 04:02</td>
+</tr>
+<tr>
+<td><strong><a href="#%E9%9B%A8%E6%B0%B4">雨水</a></strong></td>
+<td align="right">330°</td>
+<td>2 月 19 日</td>
+<td>02-18 23:52</td>
+</tr>
+<tr>
+<td><a href="#%E6%83%8A%E8%9B%B0">惊蛰</a></td>
+<td align="right">345°</td>
+<td>3 月 6 日</td>
+<td>03-05 21:59</td>
+</tr>
+<tr>
+<td><strong><a href="#%E6%98%A5%E5%88%86">春分</a></strong></td>
+<td align="right">0°</td>
+<td>3 月 20 日</td>
+<td>03-20 22:46</td>
+</tr>
+<tr>
+<td><a href="#%E6%B8%85%E6%98%8E">清明</a></td>
+<td align="right">15°</td>
+<td>4 月 5 日</td>
+<td>04-05 02:40</td>
+</tr>
+<tr>
+<td><strong><a href="#%E8%B0%B7%E9%9B%A8">谷雨</a></strong></td>
+<td align="right">30°</td>
+<td>4 月 20 日</td>
+<td>04-20 09:39</td>
+</tr>
+<tr>
+<td><a href="#%E7%AB%8B%E5%A4%8F">立夏</a></td>
+<td align="right">45°</td>
+<td>5 月 5 日</td>
+<td>05-05 19:49</td>
+</tr>
+<tr>
+<td><strong><a href="#%E5%B0%8F%E6%BB%A1">小满</a></strong></td>
+<td align="right">60°</td>
+<td>5 月 21 日</td>
+<td>05-21 08:37</td>
+</tr>
+<tr>
+<td><a href="#%E8%8A%92%E7%A7%8D">芒种</a></td>
+<td align="right">75°</td>
+<td>6 月 6 日</td>
+<td>06-05 23:48</td>
+</tr>
+<tr>
+<td><strong><a href="#%E5%A4%8F%E8%87%B3">夏至</a></strong></td>
+<td align="right">90°</td>
+<td>6 月 21 日</td>
+<td>06-21 16:25</td>
+</tr>
+<tr>
+<td><a href="#%E5%B0%8F%E6%9A%91">小暑</a></td>
+<td align="right">105°</td>
+<td>7 月 7 日</td>
+<td>07-07 09:57</td>
+</tr>
+<tr>
+<td><strong><a href="#%E5%A4%A7%E6%9A%91">大暑</a></strong></td>
+<td align="right">120°</td>
+<td>7 月 23 日</td>
+<td>07-23 03:13</td>
+</tr>
+<tr>
+<td><a href="#%E7%AB%8B%E7%A7%8B">立秋</a></td>
+<td align="right">135°</td>
+<td>8 月 7 日</td>
+<td>08-07 19:43</td>
+</tr>
+<tr>
+<td><strong><a href="#%E5%A4%84%E6%9A%91">处暑</a></strong></td>
+<td align="right">150°</td>
+<td>8 月 23 日</td>
+<td>08-23 10:19</td>
+</tr>
+<tr>
+<td><a href="#%E7%99%BD%E9%9C%B2">白露</a></td>
+<td align="right">165°</td>
+<td>9 月 7 日</td>
+<td>09-07 22:41</td>
+</tr>
+<tr>
+<td><strong><a href="#%E7%A7%8B%E5%88%86">秋分</a></strong></td>
+<td align="right">180°</td>
+<td>9 月 23 日</td>
+<td>09-23 08:05</td>
+</tr>
+<tr>
+<td><a href="#%E5%AF%92%E9%9C%B2">寒露</a></td>
+<td align="right">195°</td>
+<td>10 月 8 日</td>
+<td>10-08 14:29</td>
+</tr>
+<tr>
+<td><strong><a href="#%E9%9C%9C%E9%99%8D">霜降</a></strong></td>
+<td align="right">210°</td>
+<td>10 月 23 日</td>
+<td>10-23 17:38</td>
+</tr>
+<tr>
+<td><a href="#%E7%AB%8B%E5%86%AC">立冬</a></td>
+<td align="right">225°</td>
+<td>11 月 7 日</td>
+<td>11-07 17:52</td>
+</tr>
+<tr>
+<td><strong><a href="#%E5%B0%8F%E9%9B%AA">小雪</a></strong></td>
+<td align="right">240°</td>
+<td>11 月 22 日</td>
+<td>11-22 15:23</td>
+</tr>
+<tr>
+<td><a href="#%E5%A4%A7%E9%9B%AA">大雪</a></td>
+<td align="right">255°</td>
+<td>12 月 7 日</td>
+<td>12-07 10:53</td>
+</tr>
+<tr>
+<td><strong><a href="#%E5%86%AC%E8%87%B3">冬至</a></strong></td>
+<td align="right">270°</td>
+<td>12 月 22 日</td>
+<td>12-22 04:50</td>
+</tr>
+<tr>
+<td><a href="#%E5%B0%8F%E5%AF%92">小寒</a></td>
+<td align="right">285°</td>
+<td>1 月 5 日</td>
+<td>01-05 16:23</td>
+</tr>
+<tr>
+<td><strong><a href="#%E5%A4%A7%E5%AF%92">大寒</a></strong></td>
+<td align="right">300°</td>
+<td>1 月 20 日</td>
+<td>01-20 09:45</td>
+</tr>
+</tbody>
+</table>
+<p>表按传统四季从立春排起。因此 2026 年 1 月的小寒、大寒放在表末。四季各有六个节气，可以用流传的一首歌诀记住顺序。 <a href="https://www.hko.gov.hk/sc/%E5%A4%A9%E6%B0%94%E9%9A%8F%E7%AC%94/101847/%E8%8A%82%E6%B0%94%E6%AD%8C%E8%AF%80">香港天文台：节气歌诀</a></p>
+<blockquote>
+<p>春雨惊春清谷天<br>
+夏满芒夏暑相连<br>
+秋处露秋寒霜降<br>
+冬雪雪冬小大寒</p>
+</blockquote>
+<h2 id="节气怎样定下来">节气怎样定下来</h2>
+<h3 id="黄经每隔十五度交一节气">黄经每隔十五度交一节气</h3>
+<p>从地球看，太阳一年间在天球上走过的路线叫<strong>黄道</strong>。以春分点为 0°，沿黄道量出的角度叫<strong>黄经</strong>。历书计算太阳的地心视黄经，也就是从地球中心看见的太阳位置在黄道上的角度。每到一个 15° 的整数倍就交一个节气。例如春分是 0°，再走 15°到清明，再走 15°到谷雨。交节是一个时刻。日常说「清明时节」，也可以指清明交节起到谷雨交节前的这段日子。 <a href="https://www.hko.gov.hk/sc/gts/time/24solarterms.htm">香港天文台：二十四节气</a> · <a href="https://www.pmo.cas.cn/xwdt2019/kpdt2019/202203/t20220314_6389637.html">中国科学院紫金山天文台：历书基本术语</a></p>
+<p>太阳沿黄道走过相同角度所用的时间会变化。地球公转轨道略呈椭圆，运行速度随位置改变，相邻两次交节通常相隔约 14.7 至 15.7 天。节气在公历上通常落在相近的日子，因为公历年也以太阳的季节循环为基础。一个回归年约为 365.2422 天，遇上 365 天的间隔，同一节气大致向后移近六小时。闰日又会把公历上的时刻往前拉，两种变化使交节偶尔跨到相邻的日期。 <a href="https://www.hko.gov.hk/tc/gts/astron2022/files/HKO_almanac_2022.pdf">香港天文台：天文与二十四节气的关系</a> · <a href="https://www.pmo.cas.cn/xwdt2019/kpdt2019/202203/t20220317_6399980.html">紫金山天文台：历书科普问题解答</a></p>
+<p>地轴相对地球公转轨道平面的垂线倾斜约 23.4°。随地球公转，太阳直射点在南、北回归线之间往返。春分后直射点在北半球，北半球各地日照总体较长，秋分后则进入日照较短的半年。纬度越高，冬夏两至的昼长差异通常越大。 <a href="https://www.hko.gov.hk/sc/education/astronomy-and-time/astronomy/00489-a-day-that-lasts-one-year.html">香港天文台：春分、夏至、秋分和冬至的太阳路径</a></p>
+<h3 id="从圭表测影到平气定气">从圭表测影到平气、定气</h3>
+<p>古人用圭表观察太阳高度。直立的表杆把影子投到水平的圭上，逐日记录太阳过当地子午线时的影长。在黄河流域这类位于北回归线以北的地方，同一根杆的正午影子在夏至前后最短，在冬至前后最长。二分、二至加上立春、立夏、立秋、立冬，合称「四时八节」。西汉《淮南子·天文训》按冬至起列出了完整的一套节气，公元前 104 年颁行的《太初历》把二十四节气纳入历法。今天从立春讲四季、以冬至锚定农历月份、用春分点标记黄经零度，是三种用途下的不同起点。 <a href="https://zh.wikisource.org/zh-hans/%E6%B7%AE%E5%8D%97%E5%AD%90/%E5%A4%A9%E6%96%87%E8%A8%93">《淮南子·天文训》</a> · <a href="https://www.ihchina.cn/project_details/15059.html">中国非物质文化遗产网：农历二十四节气</a> · <a href="https://www.ihchina.cn/art/detail/id/7486.html">二十四节气与民俗</a></p>
+<p>传统<strong>平气法</strong>把一年按时间均分，每段约十五天。清初于 1645 年颁行的《时宪历》采用<strong>定气法</strong>，按太阳在黄道上走过的角度等分。用平气法，节气间隔相等。用定气法，节气之间的黄经差固定，实际天数随季节略变。现行农历采用定气。 <a href="https://www.hko.gov.hk/tc/gts/astron2022/files/HKO_almanac_2022.pdf">香港天文台：天文与二十四节气的关系</a> · <a href="https://www.pmo.cas.cn/xwdt2019/kpdt2019/202203/t20220314_6389637.html">紫金山天文台：历书基本术语</a></p>
+<h3 id="节气怎样参与农历置闰">节气怎样参与农历置闰</h3>
+<p>农历同时使用月相和太阳位置。日、月的地心视黄经相同的时刻叫<strong>朔</strong>，朔所在的北京时间日期是农历月的初一。两个朔平均相隔约 29.53 天，十二个朔望月合计约 354 天，比一个回归年少近十一天，农历用闰月校准月份与季节的关系。 <a href="https://www.pmo.cas.cn/xwdt2019/kpdt2019/202203/t20220314_6389637.html">紫金山天文台：历书基本术语</a></p>
+<p>置闰先定位冬至。冬至所在的农历月固定为十一月，从这个月起数到下一个农历十一月之前，若共有十三个农历月，就选其中第一个<strong>不含中气</strong>的月作闰月，沿用前一月的月名。举例说，2025 年 7 月 25 日至 8 月 22 日这一农历月夹在两个中气之间，月内有立秋这个「节」，前一中气大暑在 7 月 22 日，后一中气处暑在 8 月 23 日，因此这一月是闰六月。 <a href="https://www.pmo.cas.cn/xwdt2019/kpdt2019/202203/t20220317_6399980.html">紫金山天文台：置闰规则</a> · <a href="https://www.hko.gov.hk/sc/gts/astron2025/almanac2025_index.htm">《香港天文台年历 2025》七、八月历页</a></p>
+<h2 id="同一个节气各地是什么天气">同一个节气，各地是什么天气</h2>
+<p><strong>节气定的是太阳的位置，气候季节定的是当地的冷暖。</strong> 气象业务根据逐日气温和五天滑动平均判定各地换季，使用 10℃ 和 22℃ 两道温度门槛。纬度、海拔、海陆位置和季风都会改变同一时段的气温与雨量，所以立春时华南已有春意，东北还可能处在严寒中。农事里的节气谚语也有地方背景，同一个芒种，黄淮麦区要收冬小麦，长江中下游的稻田还要按熟制安排整田、栽插。 <a href="https://std.samr.gov.cn/gb/search/gbDetailedCNF?id=EB58F4DA9170B2A2E05397BE0A0A7D33">国家标准《气候季节划分》</a> · <a href="https://www.weather.com.cn/zt/jqzt/index.shtml">中国天气网：二十四节气专题</a></p>
+<p>以香港为例，1991–2020 年的 7、8、9 月平均气温依次为 28.9℃、28.7℃、27.9℃，立秋与处暑落在当地炎热的时段。6 月常年月雨量为 491.5 毫米，1 月是 33.2 毫米。天文台统计，本地约八成雨量集中在 5 至 9 月。用这些常年值来理解节气，可以同时看到南方入秋慢、雨季集中的特征。 <a href="https://www.hko.gov.hk/sc/cis/normal/1991_2020/normals.htm">香港天文台：气象要素月平均值</a> · <a href="https://www.hko.gov.hk/en/cis/climahk.htm">香港的气候</a></p>
+<p>冷暖还会滞后于太阳高度和昼长的变化。夏至后白昼开始缩短，地面和水体升温需要时间，热量仍可继续累积，因此许多地方的盛暑要到小暑、大暑前后才到来。冬至之后白昼回长，地表也可能继续冷却一段时间。降雨高峰则还取决于水汽与天气系统，例如江淮梅雨和华南沿海的热带气旋都有各自的时段。 <a href="https://www.weather.gov/cle/seasons">美国国家气象局：二分、二至与季节</a> · <a href="https://www.weather.com.cn/zt/jqzt/index.shtml">中国天气网：二十四节气专题</a></p>
+<h2 id="春季">春季</h2>
+<h3 id="立春">立春</h3>
+<p><strong>名字。</strong> “立”是开始，立春是传统四季的起点，也是二十四节气依次排列时的第一站。旧时用“东风解冻”描绘春意初萌。白昼从冬至后已经逐渐拉长，立春时这一变化仍在继续，地面和水体的回暖则各有早晚。 <a href="https://news.weather.com.cn/2026/01/4490232.shtml">中国天气网·立春解冻图鉴</a></p>
+<p><strong>气候与农事。</strong> 华南低海拔地区较早见到新芽，华北、东北的许多地方仍有冻土或冰雪。冬季风依然能带来明显降温，田间常先做修农具、备种、看苗情等准备。能否翻耕要看土壤是否解冻和含水量，解冻后过湿的地块还得等地表稍干。 <a href="https://cq.weather.com.cn/gqtj/2289489.shtml">中国天气网·立春节气</a></p>
+<p><strong>习俗。</strong> 浙江衢州的九华立春祭以鞭春牛等仪式劝农迎春。贵州石阡的“春倌”则携春牛、送春帖，唱说四季农时与吉祥话，称为“说春”。这两种习俗都把新一轮农事写进了村落共同遵循的日程。 <a href="https://www.ihchina.cn/solarname_details/47.html">中国非遗网·九华立春祭</a> · <a href="https://www.ihchina.cn/project_details/15062.html">中国非遗网·石阡说春</a></p>
+<h3 id="雨水">雨水</h3>
+<p><strong>名字。</strong> “雨水”记的是早春水的变化。随气温回升，积雪和薄冰开始消融，遇到有水汽的天气，降水也渐有由雪、雨夹雪向雨转换的趋势。古人将草木萌动和候雁北归列入此时的物候，把水、植物生长和鸟的迁徙连在一起观察。 <a href="https://news.weather.com.cn/2026/02/4501759.shtml">中国天气网·雨水草木萌动图鉴</a></p>
+<p><strong>气候与农事。</strong> 江南和华南的暖湿气流渐活跃，细雨有助于补充土壤水分，一些地方开始整地备耕。北方大部仍在冬季，较干燥，冷空气来时还能降雪。农田缺水时，一场及时的春雨有助于越冬作物恢复生长，低洼田遇上连阴雨则容易积水。 <a href="https://news.weather.com.cn/2022/02/3522447.shtml">中国天气网·雨水降水分布</a></p>
+<p><strong>习俗。</strong> 四川一些地方过去有“接寿”之俗，出嫁的女儿带礼回家探望父母，女婿送缠有红带的藤椅，祝长辈长寿。华南一些地方另有“占稻色”的说法，以炒米爆出的米花寄托对稻谷丰收的期盼。 <a href="https://news.weather.com.cn/2022/02/3522447.shtml">中国天气网·雨水习俗</a> · <a href="https://news.weather.com.cn/2026/02/4501759.shtml">中国天气网·雨水草木萌动图鉴</a></p>
+<h3 id="惊蛰">惊蛰</h3>
+<p><strong>名字。</strong> “蛰”指动物伏藏越冬。“惊蛰”把初春的雷声和蛰伏动物重新活动连成一个画面。昆虫等变温动物的活动通常随着环境转暖而增强，雷声和虫鸣是人们在季节转换中相继听到的两种声音。 <a href="https://news.weather.com.cn/2025/02/4077321.shtml">中国天气网·惊蛰与初雷</a></p>
+<p><strong>气候与农事。</strong> 我国中东部多数地方升温加快，长江中下游多地的常年初雷在惊蛰前后。江南南部和西南部分地方闻雷更早，北方许多地方还要再等一阵。北方冬麦开始或正在返青，回温提供生长条件，土壤水分则关系到随后能否顺利拔节孕穗。田间的山桃吐花和作物返青，也可以用来对照当地春天走到了哪一步。 <a href="https://news.weather.com.cn/2025/02/4077321.shtml">中国天气网·惊蛰与初雷</a> · <a href="https://news.weather.com.cn/2026/02/4509863.shtml">中国天气网·惊蛰山桃图鉴</a></p>
+<p><strong>习俗。</strong> 香港把“惊蛰祭白虎”列入非物质文化遗产清单，活动有时也包括“打小人”。香港上水古洞村有自己的祭白虎传统。它们把春初虫兽活跃带来的不安，化成祈愿平顺的地方仪式。 <a href="https://www.info.gov.hk/gia/general/202505/28/P2025052800426p.htm">香港特区政府·惊蛰祭白虎</a> · <a href="https://web.hkchronicles.org.hk/%E9%A6%99%E6%B8%AF%E5%BF%97/%E2%BC%A4%E4%BA%8B%E8%A8%98/%E4%B8%8A%E6%B0%B4%E5%8F%A4%E6%B4%9E%E6%9D%91%E9%A9%9A%E8%9F%84%E7%A5%AD%E7%99%BD%E8%99%8E">香港地方志·古洞村祭白虎</a></p>
+<h3 id="春分">春分</h3>
+<p><strong>名字。</strong> “分”指平分。从黄经看，春分位于节气春季的中点。太阳从南向北越过天赤道，直射点越过地球赤道。各地昼夜大体等长，实际日出、日落按太阳圆面上缘判定，加上大气折射，通常会测得白昼略长于十二小时。 <a href="https://www.hko.gov.hk/sc/gts/time/24solarterms.htm">香港天文台·二十四节气</a> · <a href="https://aa.usno.navy.mil/faq/equinoxes">美国海军天文台·分日昼夜长度</a></p>
+<p><strong>气候与农事。</strong> 江南气温回升，降水增多，桃花开时河水上涨，民间称“桃花汛”。华北和黄淮平原也在迅速转暖，部分冬麦起身、拔节，用水需求增加。北方春雨少，蒸发逐渐增强，田里同样是春意渐浓，面临的却可能是春旱。 <a href="https://www.weather.com.cn/zt/tqzt/09cfzt/03/62309.shtml">中国天气网·春分的由来与气候</a></p>
+<p><strong>习俗。</strong> 湖南郴州安仁有“赶分社”，“分”取春分，“社”取春社。活动围绕春分前后展开，有祭神农、祈谷、演社戏，也有农具和药材交易。气候转暖、春耕启动，田里的忙碌和市集的热闹在同一时段展开。 <a href="https://www.ihchina.cn/solarname_details/6997.html">中国非遗网·安仁赶分社</a></p>
+<h3 id="清明">清明</h3>
+<p><strong>名字。</strong> “清明”取气清景明之意，描写春日草木渐茂、景物鲜明。旧时以桐花初开、雨后见虹记这一段的时令。一年里以交节日作为传统节日过的典型例子，就是清明。 <a href="https://www.ihchina.cn/Article/Index/detail?id=8273">中国非遗网·清明节的天候和物候</a> · <a href="https://news.weather.com.cn/2026/03/4565026.shtml">中国天气网·清明物候图鉴</a></p>
+<p><strong>气候与农事。</strong> “清明时节雨纷纷”尤其贴近江南、华南及西南部分地区的春景，华南也在这一带时段进入前汛期。北方许多地方相对少雨，春风较劲，部分地块需要保墒。增温使春播范围扩大，南方早稻产区则依育秧进度和天气安排移栽。雨水补给秧田，持续低温阴雨也会拖慢秧苗生长。 <a href="https://news.weather.com.cn/2026/03/4565026.shtml">中国天气网·清明雨日分布</a> · <a href="https://www.cma.gov.cn/zfxxgk/gknr/qtwj/202211/P020221123336867001727.pdf">中国气象局·农用天气预报时段</a></p>
+<p><strong>习俗。</strong> 清明逐渐吸收了相近的寒食、上巳节俗。扫墓祭祖承载追思，踏青、插柳和放风筝则发生在春日郊野。江南一些地方吃青团，用带草木香气的青色糯米团子应节。 <a href="https://www.ihchina.cn/art/detail/id/7650.html">中国非遗网·清明礼俗</a> · <a href="https://www.ihchina.cn/Article/Index/detail?id=24807">中国非遗网·寒食与上巳</a> · <a href="https://www.ihchina.cn/Article/Index/detail?id=10041">中国非遗网·清明食俗</a></p>
+<h3 id="谷雨">谷雨</h3>
+<p><strong>名字。</strong> 谷雨是春季的最后一个节气，常说“雨生百谷”。“谷”泛指谷类作物，这个名字记下春播出苗和田间生长对适时降雨的需求。黄河中下游在谷雨前后的降水通常比更早的几个春季节气多，恰逢越冬作物拔节和一些春播作物播种出苗。 <a href="https://www.weather.com.cn/guizhou/gzsy/tqyw/04/2504250.shtml">中国天气网·谷雨农时</a></p>
+<p><strong>气候与农事。</strong> 回暖和雨水为部分南方稻区早稻移栽创造条件，也适合一些产区播种棉花和豆类。天气适宜时，北方农户借雨后墒情播种，南方阴雨频密的田块则要留意积水。谷雨常与牡丹花期相逢，洛阳、菏泽等地的不同品种会在这段时日接续开放。 <a href="https://news.weather.com.cn/2026/04/4575779.shtml">中国天气网·谷雨物候图鉴</a></p>
+<p><strong>风物。</strong> 江南茶区按采摘时间区分茶名，清明前采制的是“明前茶”，清明后、谷雨前采制的常称“雨前茶”。谷雨前后的赏牡丹、喝新茶和吃嫩香椿，把节气写进了园林与餐桌。 <a href="https://www.weather.com.cn/hainan/zyqxxx/04/4129814.shtml">中国天气网·春茶产区和采摘时间</a> · <a href="https://www.weather.com.cn/life/2025/04/4145513.shtml">中国天气网·谷雨习俗</a></p>
+<h2 id="夏季">夏季</h2>
+<h3 id="立夏">立夏</h3>
+<p><strong>名字。</strong> “立”是开始。立夏开启传统夏季，此后白昼还会继续增长，直到夏至前后达到一年中最长。草木旺长、田里的苗日渐浓密，是从暮春过渡到初夏时容易看到的变化。 <a href="https://www.hko.gov.hk/sc/gts/time/24solarterms.htm">香港天文台·二十四节气</a> · <a href="https://www.weather.com.cn/zt/tqzt/09lxzt/04/62381.shtml">中国天气网·立夏气象与农事</a></p>
+<p><strong>气候与农事。</strong> 华南多地已有夏日体感，正处前汛期，暖湿气流充沛，容易出现连续性降雨和暴雨。东北和西北的部分地区还处在春季。北方麦区的冬小麦陆续扬花或灌浆，南方一些地方在移栽早稻，油菜产区则逐渐进入成熟期。立夏同时连着春播作物的生长和夏收作物的最后一段发育。 <a href="https://www.weather.com.cn/tianjin/tqyw/05/3462166.shtml">中国天气网·立夏区域气候</a> · <a href="https://news.weather.com.cn/2024/04/3738465.shtml">中国天气网·立夏与夏收作物</a></p>
+<p><strong>习俗。</strong> 杭州半山的立夏习俗和当地的稻作、养蚕传统相关。节日期间有蚕花会、用秤给人称重的“称人”、煮野米饭，也有吃乌米饭、蚕豆和立夏饼等习惯。这些活动把当地的农桑生产、庙会和应季饮食汇集到同一个节日。 <a href="https://www.ihchina.cn/solarname_details/24759.html">中国非遗网·半山立夏习俗</a></p>
+<h3 id="小满">小满</h3>
+<p><strong>名字。</strong> “小满”说的是初步充盈。在黄河流域的麦田里，冬小麦灌浆，养分进入籽粒，麦粒从乳熟逐渐走向饱满。“麦秋”里的“秋”指收成将近，因此对小麦而言，临夏便临“秋”。在南方水网地区，“小满”还有塘河随雨水渐满的地方说法。 <a href="https://news.weather.com.cn/2026/05/4625643.shtml">中国天气网·小满江河水满图鉴</a></p>
+<p><strong>气候与农事。</strong> 华北、黄淮麦区若遇高温、低湿和一定风速共同出现的干热风，小麦叶片容易失水，缩短有效灌浆时间。华南常处于前汛期的多雨阶段，南海夏季风建立后，海上的水汽持续输向陆地，强降雨可使江河涨水。麦田和河网同时进入关键时段，田间关注缺水与干热，河网关注暴雨和水位变化。 <a href="https://news.weather.com.cn/2026/05/4625643.shtml">中国天气网·小满麦作与降水</a></p>
+<p><strong>风物。</strong> 传统小满初候写“苦菜秀”，“秀”指开花。过去，野生苦菜也曾在新麦还没收成、存粮不足时用来充饥。今天一些地方在小满吃苦菜，更多是尝鲜。 <a href="https://www.weather.com.cn/life/2026/05/4642288.shtml">中国天气网·小满食苦菜</a></p>
+<h3 id="芒种">芒种</h3>
+<p><strong>名字。</strong> “芒”是麦穗、部分稻穗等长出的针状细刺，“种”在传统解释中与播种有关。此时有芒的冬小麦等夏熟作物陆续收获，适于夏播的作物也要抓紧种下，所以“芒种”常被借音说成“忙种”。 <a href="https://www.cma.gov.cn/ztbd/2024zt/jq/xz/202406/P020240605535457395427.pdf">中国气象报·芒种节气专刊</a></p>
+<p><strong>气候与农事。</strong> 黄淮、华北等麦区进入收割阶段，冬麦收后接种夏玉米或夏大豆。南方一些稻区则忙于整田、插秧。麦收最怕收割窗口遇到连阴雨或风雹，田间倒伏、穗上发芽和收后难以晾晒都可能影响收成。南方的雨带向长江流域推进，一些地方接近入梅，农活常要跟着晴雨间歇排。 <a href="https://news.weather.com.cn/2026/05/4639916.shtml">中国天气网·芒种夏收进程</a> · <a href="https://www.cma.gov.cn/ztbd/2024zt/jq/xz/202406/P020240605535457395427.pdf">中国气象报·芒种与梅雨</a></p>
+<p><strong>习俗。</strong> 浙江云和梅源山区的畲汉村民以开犁节启动夏耕。村民在梯田祭神田、犒牛、开犁，并唱当地山歌。稻作山区通过这样的地方仪式，把每年集体开耕的时间固定下来。 <a href="https://www.ihchina.cn/solarname_details/24761.html">中国非遗网·梅源芒种开犁节</a></p>
+<h3 id="夏至">夏至</h3>
+<p><strong>名字。</strong> “至”取极致之意。太阳直射点到达最北处，在北回归线附近。我国各地在夏至前后迎来一年中最长的白昼，纬度越高，日长与冬至的反差通常越大。此后太阳直射点开始南移，白昼渐短。 <a href="https://www.hko.gov.hk/sc/gts/time/24solarterms.htm">香港天文台·二十四节气</a> · <a href="https://news.weather.com.cn/2026/06/4664331.shtml">中国天气网·夏至白昼分布</a></p>
+<p><strong>气候与农事。</strong> 地表和低层大气还在积累热量，最热的一段日子通常稍后到来。长江中下游、江淮等地常处梅雨期，暖湿气流沿雨带持续输送，阴雨和短时强降水均有机会出现。处在梅雨带的田地要顾及排水，夏玉米等新播作物则需要合适的温度和墒情出苗。 <a href="https://www.cma.gov.cn/en/SciandTech/201406/P020140613589770509066.pdf">中国气象局·长江中游暴雨研究</a> · <a href="https://news.weather.com.cn/2026/07/4708670.shtml">中国天气网·夏至后热量积累</a></p>
+<p><strong>习俗。</strong> 一些地方有夏至吃面的习惯。夏收过后，新麦磨成面粉，凉拌面、炸酱面等都可以应时尝新。民谚“吃过夏至面，一天短一线”，用一碗面把夏至之后逐渐缩短的白昼记下来。 <a href="https://www.weather.com.cn/life/2022/06/3544125.shtml">中国天气网·夏至面</a></p>
+<h3 id="小暑">小暑</h3>
+<p><strong>名字。</strong> “暑”指炎热，“小”表示暑热已起、仍在加深。小暑靠近入伏时段。传统算法从夏至日数起，第三个庚日入初伏，第四个庚日入中伏，再从立秋日数起，第一个庚日入末伏。庚日每十天一遇，因此三伏有三十天和四十天两种长度。 <a href="https://www.weather.com.cn/guangdong/gwtq/gwzs/08/834415.shtml">广东省气象局·三伏的算法</a> · <a href="https://www.zgqxb.com.cn/kp/202607/t20260714_7924825.html">中国气象科普网·伏天日期</a></p>
+<p><strong>气候与农事。</strong> 长江中下游常陆续出梅。西太平洋副热带高压控制的地方容易连晴高温，部分地区出现伏旱。在它的北侧，输送到内陆的水汽增多，黄淮、华北、东北等地陆续进入多雨期，强降雨和雷暴机会增大。盛夏作物快速生长，田间会同时面临不同地区的排涝和抗旱任务。 <a href="https://www.weather.com.cn/life/2026/07/4705796.shtml">中国天气网·小暑南北雨热变化</a></p>
+<p><strong>风物。</strong> 荷花喜光、耐热，江南不少荷塘在小暑前已经开花，华北一些荷塘也在小暑前后进入盛花期。旧时部分地方有小暑“食新”习俗，以新收的米、粮做饭酿酒，庆祝收成。 <a href="https://news.weather.com.cn/2026/06/4687695.shtml">中国天气网·小暑荷花图鉴</a></p>
+<h3 id="大暑">大暑</h3>
+<p><strong>名字。</strong> 大暑是夏季最后一个节气，标志着暑热深重。长江中下游等地常受副热带高压控制，下沉气流使云量减少，白天升温更容易。气温高、湿度也高时，汗液蒸发较慢，人体会感觉格外闷热。 <a href="https://news.weather.com.cn/2026/07/4708670.shtml">中国天气网·大暑湿热分布</a></p>
+<p><strong>气候与农事。</strong> 华北、东北等地在七月下旬至八月上旬进入降雨较集中的阶段，俗称“七下八上”。东南沿海已进入台风活动较多的季节，台风带来的降雨会改变当地暑热与旱涝状况。双季稻产区此时进入“双抢”，赶晴天抢收、晾晒早稻，再抢时移栽晚稻，给晚稻在秋季冷空气活跃前完成抽穗扬花留出时间。 <a href="https://www.weather.com.cn/life/2024/07/3810774.shtml">中国天气网·大暑气候与双抢</a> · <a href="https://sd.weather.com.cn/sdsy/sdqxxw/09/1977234.shtml">中国天气网·晚稻抽穗扬花与低温</a> · <a href="https://www.ihchina.cn/solarname_details/24760.html">中国非遗网·浙东沿海大暑风俗</a></p>
+<p><strong>习俗。</strong> 浙江台州椒江葭沚一带渔村传承“送大暑船”。村民在小暑到大暑之间准备船只、举行仪式，到大暑日送船出海。当地夏季常有台风、涝灾，送船寄托的是沿海居民盼望平安度夏的愿望。 <a href="https://www.ihchina.cn/solarname_details/24760.html">中国非遗网·送大暑船</a></p>
+<h2 id="秋季">秋季</h2>
+<h3 id="立秋">立秋</h3>
+<p><strong>名字与物候。</strong> “立”是开始，立秋是传统秋季的起点。《月令七十二候集解》以凉风、露水和蝉声描写初秋。最先能体察到的往往是早晚的变化，例如清晨起风时比前几日凉，背阴处更容易留住露珠。白天的热度和田间作物的生长仍可延续。 <a href="https://zh.wikisource.org/wiki/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3#%E7%AB%8B%E7%A7%8B">《月令七十二候集解》</a></p>
+<p><strong>天气。</strong> 常年立秋前后，新疆、内蒙古和黑龙江北部的一些地区率先感到降温，早晚与午后的温差拉大。江淮、江南等地仍常受副热带高压影响，盛夏的闷热可以延续到下一个节气。民间把立秋或处暑过后一度转凉又出现的短期暑热称作“秋老虎”。 <a href="https://news.weather.com.cn/2026/07/4729555.shtml">中国天气网立秋物候图</a> · <a href="https://www.weather.com.cn/zt/tqzt/09lqzt/08/62764.shtml">中国天气网解读“秋老虎”</a></p>
+<p><strong>民俗。</strong> 北方一些地方在立秋前后吃西瓜，称为“啃秋”。江西婺源篁岭的“晒秋”有另一层实际用途。山村平地少，村民利用屋檐、窗台和晒架摊晒辣椒、玉米等收获物，便于干燥和储藏。湘西花垣的苗族赶秋也是立秋时节的活动，鼓舞、山歌和可容八人同荡的秋千聚集村寨乡亲。 <a href="https://www.cma.gov.cn/ztbd/2024zt/jq/xz/202408/P020240807490104464071.pdf">《中国气象报》立秋专题</a> · <a href="https://www.ihchina.cn/project_details/15065.html">中国非物质文化遗产网苗族赶秋名录</a></p>
+<h3 id="处暑">处暑</h3>
+<p><strong>名字。</strong> “处”读 <em>chǔ</em>，这里有止息之意。处暑意为暑气渐退，标记盛夏向秋季过渡。在常年的季节进程里，北方冷空气开始更频繁地活动，长城以北不少地方午间仍有暖意，夜间已经明显变凉。 <a href="https://zh.wikisource.org/wiki/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3#%E8%99%95%E6%9A%91">《月令七十二候集解》</a> · <a href="https://e.weather.com.cn/mtqsh/2025/08/4305113.shtml">中国天气网处暑气候图</a></p>
+<p><strong>天气与农事。</strong> 副热带高压如果再次向西伸展，长江中下游仍可能出现高温。西北太平洋的热带气旋也仍活跃，台风和冷空气有时会共同给东南沿海带来强风雨。这两种天气可在相近时段出现。内陆稻田可能需要在余暑中保水，沿海则可能因强降雨而排涝。 <a href="https://e.weather.com.cn/mtqsh/2025/08/4305113.shtml">中国天气网处暑气候图</a> · <a href="https://www.cma.gov.cn/ztbd/2024zt/jq/xz/202408/P020240826386441835002.pdf">《中国气象报》处暑专题</a></p>
+<p><strong>民俗。</strong> 苏州地方记载有处暑炖老鸭和向亲友送鸭的旧俗。海边则可看到另一种季节活动。广东阳江在暑末举行开渔仪式，渔船在伏季休渔结束后出海，具体开渔时间按当年的休渔公告执行。 <a href="https://dfzb.suzhou.gov.cn/dfzb/szdq/202208/49d9d40304bf4c949abd6ddb0727884d.shtml">苏州市地方志办公室</a> · <a href="https://www.yangjiang.gov.cn/yj/ywdt/yjyw/content/post_974270.html">阳江市人民政府开渔记载</a></p>
+<h3 id="白露">白露</h3>
+<p><strong>名字与露水。</strong> “白”写的是露珠在草木上显出的晶莹色泽，古书也以五行中的“秋属金、金色白”解名。晴朗、风弱的夜晚，草叶和地面通过辐射散热，表面温度降到附近空气的露点时，水汽便能在其上凝结为液滴。日出后草叶逐渐受热，露珠也会慢慢蒸发。 <a href="https://zh.wikisource.org/wiki/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3#%E7%99%BD%E9%9C%B2">《月令七十二候集解》</a> · <a href="https://news.weather.com.cn/2025/08/4312890.shtml">中国天气网白露气象统计</a></p>
+<p><strong>天气。</strong> 北方多地在此时暑热消退，昼夜温差明显。中国天气网以 1971—2000 年资料绘制的白露期间平均日较差图显示，新疆大部与内蒙古东北部部分地区可达 16℃ 以上，西南东部、江南中部、华南南部的一些地区则在 8℃ 以下。古书所说的雁来、燕归，记录了这个季节候鸟更替的印象。 <a href="https://www.weather.com.cn/zt/jqzt/09/1000022.shtml">中国天气网白露日较差分布图</a> · <a href="https://zh.wikisource.org/wiki/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3#%E7%99%BD%E9%9C%B2">《月令七十二候集解》</a></p>
+<p><strong>民俗。</strong> 福建福州有白露吃龙眼的习惯，也有人把剥好的鲜龙眼放进热稀饭里。白露恰在当地龙眼集中成熟的一段时间，节气因而也成了记认果物上市的日子。 <a href="https://www.fuzhou.gov.cn/zgfzzt/zjrc/mdfc/msfq/202512/t20251205_5241002.htm">福州市人民政府民俗资料</a></p>
+<h3 id="秋分">秋分</h3>
+<p><strong>名字与天象。</strong> 秋分在传统秋季居中，“分”也指昼夜大致平分。交节时太阳的地心视黄经为 180°，太阳直射点大致由北半球越过赤道转向南半球。日出和日落通常用太阳上缘判断，加上地平线附近的大气折射，许多地方秋分日的可见白昼略长于 12 小时。此后北半球的白昼继续缩短，直到冬至前后。 <a href="https://www.weather.gov.hk/sc/education/astronomy-and-time/astronomy/00736-Understanding-the-Sun-Path-The-Figure-8-in-the-Sky.html">香港天文台太阳路径</a> · <a href="https://www.hko.gov.hk/tc/education/astronomy-and-time/astronomy/00493-effect-of-atmospheric-refraction-on-the-times-of-sunrise-and-sunset.html">香港天文台日出日落说明</a></p>
+<p><strong>天气与农事。</strong> 秋分常在各地秋收、秋耕、秋种陆续展开的时候。东北和黄淮一些产区的玉米、大豆进入成熟期，江南部分晚稻还在灌浆，南岭以南不少地方仍处在气候学的夏季。同一天，有的地方在抢晴收粮，有的地方在给下一季作物备耕。 <a href="https://newsapp.weather.com.cn/news/2026/09/4800480.shtml">中国天气网全国秋收进程图</a></p>
+<p><strong>节日。</strong> 秋分是古代礼制中祭月的时点之一。今天的中国农民丰收节也以秋分为日期，自 2018 年起设立，把秋分和当代丰收庆祝联系起来。 <a href="https://www.cma.gov.cn/ztbd/2024zt/jq/xz/202409/P020240923585957696529.pdf">《中国气象报》秋分祭月专题</a> · <a href="https://app.www.gov.cn/govdata/gov/201806/21/425918/article.html">国务院关于设立中国农民丰收节的批复</a></p>
+<h3 id="寒露">寒露</h3>
+<p><strong>名字。</strong> 白露取露珠的色泽，寒露取露水沾衣的凉意。古书用“露气寒冷”写出深秋的体感。此时北半球白昼继续缩短，东北和西北部分地区冷空气活动频繁，大风降温时会提前显出初冬景象。 <a href="https://zh.wikisource.org/wiki/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3#%E5%AF%92%E9%9C%B2">《月令七十二候集解》</a> · <a href="https://cnr.weather.com.cn/news/2026/10/4814318.shtml">中国天气网寒露天气分布</a></p>
+<p><strong>天气与农事。</strong> 四川盆地、贵州、陕南等地常处在华西秋雨期，冷暖空气反复交汇，阴雨可能连绵数日，影响收晒。江南和华南双季稻区关注“寒露风”，即晚稻在抽穗扬花等敏感期遭遇的秋季低温过程。低温会妨碍授粉结实，增加空壳和瘪粒。晚稻生育期有地域差异，长江中下游在秋分前后也可能遇到这种低温。 <a href="https://www.weather.com.cn/zt/tqzt/09qfzt/09/1495953.shtml">中国天气网华西秋雨成因</a> · <a href="https://www.weather.com.cn/index/lssj/09/373065.shtml">中国天气网寒露风与晚稻</a></p>
+<p><strong>民俗。</strong> 在江南一些地方，寒露前后可以看到菊花集中开放。上海郊区有秋日赏菊的习惯，既能在田园花圃看花，也能在菊展分辨不同花色和花型。 <a href="https://nyncw.sh.gov.cn/mtbd/20251011/e37f0aa1e05046638e836e0500764cb5.html">上海市农业农村委员会</a></p>
+<h3 id="霜降">霜降</h3>
+<p><strong>名字与成霜。</strong> 霜降是秋季最后一个节气，名字取深秋常见的白霜。晴朗少风的夜里，地面和草叶可因辐射散热而比上方空气更冷。条件合适时，近地面的水汽在冰点以下的物体表面凝华成冰晶。黄河中下游许多地方的初霜常在这一时段前后出现，东北部分地区更早，华南低海拔地区通常更迟。 <a href="https://www.weather.com.cn/zt/tqzt/08sjzt/10/62549.shtml">中国天气网霜降与霜冻</a></p>
+<p><strong>农事。</strong> 可见的霜是地物表面的冰晶，农业上的霜冻指低温造成的作物损伤。二者可以同时发生，空气较干时也可能在少见白霜的情况下出现冻害。初霜来得早，尚未成熟的棉桃、烟叶和仍在田里的不耐寒蔬菜都可能受损，成熟作物的收晒也会进入扫尾阶段。 <a href="https://www.weather.com.cn/zt/tqzt/08sjzt/10/62547.shtml">中国天气网霜冻与农事</a> · <a href="https://www.weather.com.cn/zt/tqzt/08qj/09/62853.shtml">中国天气网释霜与霜冻</a></p>
+<p><strong>民俗。</strong> 广西天等、大新、德保等地过壮族霜降节。这个节庆起于稻作收获后的酬谢与庆祝，后来融入纪念瓦氏夫人、赶圩交易和山歌对唱等活动，已列入国家级非物质文化遗产代表性项目名录。 <a href="https://www.ihchina.cn/project_details/15066.html">中国非物质文化遗产网壮族霜降节名录</a></p>
+<h2 id="冬季">冬季</h2>
+<h3 id="立冬">立冬</h3>
+<p><strong>名字。</strong> 立冬是传统冬季的起点。古书说“冬，终也，万物收藏也”，其中的“终”指一年农作走向收束，“藏”可以具体到粮食入仓、冬菜入窖，以及田间作物放慢生长，准备越冬。 <a href="https://zh.wikisource.org/wiki/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3#%E7%AB%8B%E5%86%AC">《月令七十二候集解》</a></p>
+<p><strong>天气与农事。</strong> 入冬的进程由北向南推移。东北北部和西北一些地区入冬较早，华北、黄淮在立冬前后陆续转冷，江南和华南不少地方此时仍能见到深秋景象。秋播后的冬小麦会逐渐进入越冬阶段。适宜地区根据墒情和苗情安排冬灌，利用土壤水分减缓地温波动，为麦苗越冬和春季返青蓄水。 <a href="https://www.weather.com.cn/life/2026/11/4853152.shtml">中国天气网立冬天气分布</a> · <a href="https://www.weather.com.cn/zt/tqzt/08ldzt/11/62580.shtml">中国天气网冬小麦越冬管理</a></p>
+<p><strong>民俗。</strong> 浙江绍兴、嘉兴等地有立冬开酿黄酒的传统，入冬到次年立春的一段时间称为“冬酿”。凉爽环境下发酵较缓，便于酿造者安排较长的发酵周期，并减少杂菌繁殖。 <a href="https://jgs.agri.gov.cn/detail/zh/39871.html">中国农业博物馆立冬民俗</a> · <a href="https://jkq.yzcity.gov.cn/jkq/0207/201711/304f959f967346958b8de9ceb8b4f4dd.shtml">绍兴冬酿记录</a></p>
+<h3 id="小雪">小雪</h3>
+<p><strong>名字。</strong> “小”指雪势未盛。古人以冬初降水由雨转雪、积雪尚浅的印象命名。一次降水能否以雪的形态到达地面，要看雪花下降所经过的空气冷暖。地面偏暖时，落下的雪花也容易融化。 <a href="https://zh.wikisource.org/wiki/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3#%E5%B0%8F%E9%9B%AA">《月令七十二候集解》</a> · <a href="https://www.cma.gov.cn/ztbd/2023zt/jq/xz/202311/P020231122331675612975.pdf">《中国气象报》小雪专题</a></p>
+<p><strong>天气。</strong> 东北、西北不少地方在小雪前已迎来初雪，华北不少地方的常年初雪在 11 月下旬至 12 月初，江汉、江南的许多地方则更晚。暖湿气流如果在这时北上与强冷空气交汇，东北也可能在“小雪”节气遇上暴雪。国家标准按 24 小时统计时，把降雪融化后为 0.1 至 2.4 毫米的情况划为“小雪”。 <a href="https://news.weather.com.cn/2025/12/4430092.shtml">中国天气网初雪资料</a> · <a href="https://www.cma.gov.cn/ztbd/2023zt/jq/xz/202311/P020231122331675612975.pdf">《中国气象报》小雪专题</a> · <a href="https://www.cma.gov.cn/zfxxgk/gknr/flfgbz/bz/202209/P020220921551942529160.pdf">国家标准《降水量等级》</a></p>
+<p><strong>民俗。</strong> 传统上有“小雪腌菜”的说法。江淮一些地方在这时腌白菜、萝卜，杭州等地也会着手准备酱鸭和腊味。腌制和风干是冷藏设备普及之前储备越冬食物的做法。 <a href="https://nyncj.beijing.gov.cn/nyj/snxx/gzdt/11154736/index.html">北京市农业农村局小雪农事资料</a></p>
+<h3 id="大雪">大雪</h3>
+<p><strong>名字与天气。</strong> “大”指雪意渐盛。北方许多地方进一步降温，新疆北部、东北和华北北部一些地区可遇风雪。冷空气南下后，若在黄淮至长江流域附近遇到充足水汽，也可能形成较明显的降雪过程。一次降雪的强弱还取决于水汽和大气运动。节气名记录一年中的时序，预报里的“大雪”表示 24 小时降雪融水量达到 5.0 至 9.9 毫米。 <a href="https://e.weather.com.cn/news/2024/12/3988148.shtml">中国天气网大雪天气分布</a> · <a href="https://www.cma.gov.cn/zfxxgk/gknr/flfgbz/bz/202209/P020220921551942529160.pdf">国家标准《降水量等级》</a></p>
+<p><strong>农事。</strong> “瑞雪兆丰年”说的是适量积雪对越冬作物的帮助。雪层能减弱冷风和急剧降温对麦苗的影响，融雪还能补给土壤水分。积雪过重则可能压损棚架，给设施农业和牧业添麻烦。 <a href="https://www.cma.gov.cn/ztbd/2023zt/jq/xz/202312/P020231207364754893893.pdf">《中国气象报》大雪专题</a></p>
+<p><strong>民俗。</strong> 北方还有冬季采冰、储冰的传统，冰块曾用于保存食物和夏日消暑。哈尔滨在大雪节气前后举行松花江采冰活动，冬季采来的冰也用来制作冰雕和冰灯。 <a href="https://www.cma.gov.cn/ztbd/2024zt/jq/xz/202412/P020241205363179155205.pdf">《中国气象报》采冰节资料</a></p>
+<h3 id="冬至">冬至</h3>
+<p><strong>名字与天象。</strong> “至”有到达极点的意思。冬至前后，太阳直射点到达南回归线附近，北半球大部分地区白昼最短、黑夜最长，正午的太阳也处在全年最低的高度附近。以香港为例，冬至日太阳从东南方升起，经较低的弧线运行，再从西南方落下。 <a href="https://www.weather.gov.hk/tc/education/astronomy-and-time/astronomy/00489-a-day-that-lasts-one-year.html">香港天文台太阳路径示例</a></p>
+<p><strong>天气与数九。</strong> 冬至后白昼渐长，地面和近地面空气的冷暖还取决于收支是否平衡。冬至后的一段时间里，地面整体仍在净失热，气温通常继续下降。民间常从冬至当天起，每九天记作一个“九”，共数八十一天。“冷在三九”说的就是隆冬的降温往往晚于日照最短的时候。 <a href="https://www.weather.com.cn/zt/tqzt/08dzzt/12/62686.shtml">中国天气网冬至与三九</a> · <a href="https://news.weather.com.cn/2025/11/4399168.shtml">中国天气网冬至气象统计</a></p>
+<p><strong>民俗。</strong> 冬至兼具节气和节日的身份。北方不少地方吃饺子，苏州一些家庭在冬至前夜吃冬至团、喝冬酿酒。浙江三门的祭冬包含祭祖、演祝寿戏和宴请老人，列入国家级非遗名录。 <a href="https://www.neac.gov.cn/seac/c103391/202302/1160598.shtml">国家民委冬季礼仪资料</a> · <a href="https://www.sipac.gov.cn/szdaglzx/yqfzlfzz/202102/456d2f83af4b41acb8169203cba5a808.shtml">苏州地方志冬至习俗</a> · <a href="https://www.ihchina.cn/project_details/15063">中国非物质文化遗产网三门祭冬名录</a></p>
+<h3 id="小寒">小寒</h3>
+<p><strong>名字。</strong> “小寒”与下一节气“大寒”成对，沿用寒气继续加深的传统说法。按中国天气网汇总的 1991—2020 年资料，全国平均气温在小寒约为零下 5℃，是二十四节气中最低的。分省看，江苏、浙江、广东等部分南方省份的大寒平均气温还会再低一些。 <a href="https://zh.wikisource.org/wiki/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3#%E5%B0%8F%E5%AF%92">《月令七十二候集解》</a> · <a href="https://e.weather.com.cn/news/2026/01/4460467.shtml">中国天气网小寒统计</a></p>
+<p><strong>天气与农事。</strong> 小寒通常从“二九”后段延续到“四九”初。北方许多地区地表冻结，农田进入越冬管理期，人们要防止菜窖和畜舍失温。江南冬季常有阴雨，寒潮和持续低温期间，越冬油菜、冬小麦也需要防冻。 <a href="https://e.weather.com.cn/news/2026/01/4460467.shtml">中国天气网小寒气候和农事</a></p>
+<p><strong>物候与习俗。</strong> 旧时有“二十四番花信风”，从小寒到谷雨，每候配一种花，小寒头一候配梅花。江南有寻梅赏梅的岁末雅趣。南京一些家庭还会在小寒煮菜饭，把本地的矮脚黄青菜与咸肉或香肠一起入锅。 <a href="https://www.gdwsw.gov.cn/wsbl/content/post_35747.html">广东省文史研究馆小寒民俗</a> · <a href="https://rfb.ezhou.gov.cn/rffc/201801/t20180105_206836.html">小寒菜饭资料</a></p>
+<h3 id="大寒">大寒</h3>
+<p><strong>名字与冷暖。</strong> 大寒是二十四节气的最后一站，名称着重表现冬深寒重。大寒与小寒的实际冷暖随地域和年份变化。全国多年平均值在大寒已略有回升，黑龙江中部、山东大部和华东沿海部分地区的极端低温仍可能出现在大寒。平均气温比较的是整段时间，极端低温记录的是统计期内观测到的最低温。 <a href="https://e.weather.com.cn/news/2023/01/3594332.shtml">中国天气网大寒节气统计</a> · <a href="https://hlj.weather.com.cn/qxkp/01/3682488.shtml">中国天气网大寒极端低温分布图</a></p>
+<p><strong>天气。</strong> 冬季风仍可带来寒潮。北方多地的积雪不易融化，山东半岛还可能在冷空气越过海面、补充水汽之后出现较强的“冷流雪”。南方暖湿气流遇到南下冷空气时，降水可表现为阴雨、雨夹雪或雪，局地也可能出现雨滴一碰地物就结冰的冻雨。 <a href="https://www.weather.com.cn/life/2026/01/4470044.shtml">中国天气网大寒天气分布</a> · <a href="https://www.caac.gov.cn/XXGK/XXGK/GFXWJ/202112/P020220209588831109510.pdf">民航气象规章冻雨定义</a></p>
+<p><strong>民俗。</strong> 大寒常在农历年尾前后，民间有“大寒迎年”的说法。扫尘、备年货和筹备团聚的活动常在这一段时间陆续展开，具体年俗多按当地惯例和农历日期安排。过了大寒，节气序列回到立春。 <a href="https://www.neac.gov.cn/seac/c103391/202302/1160598.shtml">国家民委四时礼仪资料</a></p>
+<h2 id="七十二候">七十二候</h2>
+<p>古人把一个节气约分为三段，按先后称为初候、二候和三候。传统以五日为一候，一年共七十二候，每候配一个有代表性的征象，叫作<strong>候应</strong>。《逸周书·时训解》以节气当日为起点，接着记录两个五日后的变化。候应里有花开、鸟鸣、水位变化，也有古人对动物行为和天地之气的解释。实地看到的物候会随地域、物种和当年气候变化。 <a href="https://www.shidianguji.com/book/NA03787/chapter/1l3ws7jcrbsj6">《逸周书·时训解》</a> · <a href="https://jgs.agri.gov.cn/twenty/zh/four_solar_terms.html">中国农业博物馆《二十四节气》</a></p>
+<p>下表依《月令七十二候集解》的次序，用白话转述七十二条候应。此书旧题元代吴澄撰，《四库全书总目》对署名存疑。早期文献和后世通行本有些字句不同，例如《时训解》与《集解》都在立春三候写鱼游近冰面，措辞各异。 <a href="https://zh.wikisource.org/zh-hant/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3">《月令七十二候集解》原文</a> · <a href="https://www.shidianguji.com/zh/book/7419164413602562102/chapter/1keg26z1yesyu">《四库全书总目》卷二十四</a></p>
+<table>
+<thead>
+<tr>
+<th>节气</th>
+<th>初候</th>
+<th>二候</th>
+<th>三候</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>立春</td>
+<td>春风吹来，冻处开始消融</td>
+<td>冬藏的虫逐渐活动</td>
+<td>鱼游向水面，靠近残冰</td>
+</tr>
+<tr>
+<td>雨水</td>
+<td>水獭把捕来的鱼排得像祭品</td>
+<td>候雁北飞</td>
+<td>草木开始抽芽</td>
+</tr>
+<tr>
+<td>惊蛰</td>
+<td>桃花初开</td>
+<td>黄鹂啼鸣</td>
+<td>古人说鹰在春天化作鸠</td>
+</tr>
+<tr>
+<td>春分</td>
+<td>燕子飞来</td>
+<td>开始听到雷声</td>
+<td>开始见到闪电</td>
+</tr>
+<tr>
+<td>清明</td>
+<td>桐树开始开花</td>
+<td>古人说田鼠化作鹌鹑一类的鸟</td>
+<td>开始见到彩虹</td>
+</tr>
+<tr>
+<td>谷雨</td>
+<td>水面开始长浮萍</td>
+<td>布谷鸟边叫边振翅</td>
+<td>戴胜飞落到桑树上</td>
+</tr>
+<tr>
+<td>立夏</td>
+<td>蝼蝈开始叫，书中把它释作蝼蛄</td>
+<td>蚯蚓钻出土来</td>
+<td>王瓜一类的藤蔓开始生长</td>
+</tr>
+<tr>
+<td>小满</td>
+<td>苦菜长到繁盛的时候</td>
+<td>茎叶纤细的草开始枯萎</td>
+<td>麦子接近成熟收割的时节</td>
+</tr>
+<tr>
+<td>芒种</td>
+<td>小螳螂从卵鞘中孵出</td>
+<td>伯劳开始鸣叫</td>
+<td>古书所称的反舌渐息声</td>
+</tr>
+<tr>
+<td>夏至</td>
+<td>鹿开始脱角</td>
+<td>夏蝉开始鸣叫</td>
+<td>半夏开始生长</td>
+</tr>
+<tr>
+<td>小暑</td>
+<td>风里带来热气</td>
+<td>蟋蟀栖在洞穴内壁</td>
+<td>鹰开始练习扑击</td>
+</tr>
+<tr>
+<td>大暑</td>
+<td>腐草间见到萤火，古人以为腐草化萤</td>
+<td>土壤湿润，天气闷热</td>
+<td>大雨不时落下</td>
+</tr>
+<tr>
+<td>立秋</td>
+<td>风开始有凉意</td>
+<td>清凉时节初见白露</td>
+<td>开始听见寒蝉叫</td>
+</tr>
+<tr>
+<td>处暑</td>
+<td>鹰捕鸟，古书把它写作祭鸟</td>
+<td>天地渐显肃清的秋意</td>
+<td>谷物渐熟</td>
+</tr>
+<tr>
+<td>白露</td>
+<td>北来的大雁抵达</td>
+<td>燕子迁归</td>
+<td>鸟群储备过冬食物</td>
+</tr>
+<tr>
+<td>秋分</td>
+<td>雷声逐渐少了</td>
+<td>蛰伏的虫用泥缩小洞口</td>
+<td>水域开始退水</td>
+</tr>
+<tr>
+<td>寒露</td>
+<td>较晚南迁的雁相继抵达</td>
+<td>古人说黄雀入海化成蛤</td>
+<td>菊花开出黄色的花朵</td>
+</tr>
+<tr>
+<td>霜降</td>
+<td>豺捕猎，古书写作陈列猎物以行祭礼</td>
+<td>草叶枯黄，树叶飘落</td>
+<td>蛰虫伏藏，少动少食</td>
+</tr>
+<tr>
+<td>立冬</td>
+<td>水面开始凝冰</td>
+<td>表土开始冻结</td>
+<td>古人说野鸡入水化成大蛤</td>
+</tr>
+<tr>
+<td>小雪</td>
+<td>彩虹渐少见</td>
+<td>古人说天之气上行、地之气下行</td>
+<td>古人以天地之气闭藏解释冬的到来</td>
+</tr>
+<tr>
+<td>大雪</td>
+<td>古书所称的鹖鴠停止鸣叫</td>
+<td>古书说虎开始交配</td>
+<td>荔挺一类的草开始萌出</td>
+</tr>
+<tr>
+<td>冬至</td>
+<td>古书描写蚯蚓相互盘曲</td>
+<td>麋开始脱角</td>
+<td>古书说泉水开始涌动</td>
+</tr>
+<tr>
+<td>小寒</td>
+<td>雁开始有向北飞的动向</td>
+<td>喜鹊开始营巢</td>
+<td>野鸡开始鸣叫</td>
+</tr>
+<tr>
+<td>大寒</td>
+<td>母鸡开始孵育雏鸡</td>
+<td>鹰隼等猛禽动作迅疾</td>
+<td>水泽的冰层向下加厚</td>
+</tr>
+</tbody>
+</table>
+<p>几个古字能读出候应里的意思。“群鸟养羞”的“羞”指食物，写的是鸟为冬季备食。“蛰虫坏户”的“坏”在书中注音为 <strong>péi</strong>，写的是用泥缩小蛰穴入口。“麦秋”用“秋”指庄稼成熟的时节，麦子的收获期可以出现在初夏。“反舌”在古注中有百舌鸟与蛙类两种解释。“鹖鴠”（hé dàn）也有不同释义，《集解》作者将它描述为一种形似野鸡的鸟。“腐草为萤”和黄雀入海化蛤，则属于古人用生物彼此转化来解释季节交替的说法。 <a href="https://zh.wikisource.org/zh-hant/%E6%9C%88%E4%BB%A4%E4%B8%83%E5%8D%81%E4%BA%8C%E5%80%99%E9%9B%86%E8%A7%A3">《月令七十二候集解》原文</a></p></div>  </div> </article> </main> </div>  <footer class="site-footer"><div><a href="/">葉子的笔记</a><span>Personal Knowledge Base</span></div></footer> <script type="module">const n=document.querySelector(".topic-nav [aria-current]"),c=document.querySelector(".topic-nav-scroll");if(n&&c){const t=c.getBoundingClientRect(),e=n.getBoundingClientRect();(e.right>t.right||e.left<t.left)&&(c.scrollLeft+=e.left-t.left-(t.width-e.width)/2)}</script> </body> </html> <script type="module">for(const o of document.querySelectorAll(".prose .code-block")){const n=o.querySelector("pre > code"),e=o.querySelector(".code-copy"),c=e?.querySelector(".code-copy-feedback"),t=o.querySelector('[role="status"]');if(!n||!e||!c||!t)continue;let a;e.hidden=!1,e.addEventListener("click",async()=>{e.disabled=!0,window.clearTimeout(a),t.textContent="";let d=3e3;try{await navigator.clipboard.writeText(n.textContent??""),c.textContent="copied",t.textContent="代码已复制"}catch{c.textContent="failed",t.textContent="复制失败，请手动复制代码",d=2e3,e.disabled=!1}e.setAttribute("data-feedback",""),a=window.setTimeout(()=>{e.removeAttribute("data-feedback"),e.disabled=!1,t.textContent=""},d)})}</script>
